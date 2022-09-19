@@ -14,7 +14,7 @@ class TaskClient:
         )
         status_code = resp.status_code
         assert status_code == 200, f"Статус код не 200 [{status_code}]"
-        return resp.text
+        return resp.json()
 
     def get(self, task_id) -> dict:
         resp = requests.get(
@@ -36,6 +36,7 @@ class TaskClient:
         )
         status_code = resp.status_code
         assert status_code == 201, f"Статус код не 201 [{status_code}]"
+        print(f"Создана задача с id {resp.json()['task']['id']}")
         return resp.json()
 
 
@@ -49,7 +50,6 @@ result = task_client.create(
     description='Test description',
     done=False
 )
-task_id = result["task"]["id"]
 print(result)
 
 

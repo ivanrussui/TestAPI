@@ -24,7 +24,7 @@ def print_resp(resp):
 # print_resp(resp)
 
 
-# создать задачу (начиная с id: 3)
+# создать задачу (начиная с id: 3 и uri: 'http://.../tasks/3')
 resp = requests.post(
     url=f"{BASE_URL}/todo/api/v1.0/tasks",
     data={
@@ -54,9 +54,10 @@ resp = requests.get(
 print_resp(resp)
 
 
-# изменить новую задачу по id
+# изменить новую задачу по id/uri
 resp = requests.put(
     url=f"{BASE_URL}/todo/api/v1.0/tasks/{task_id}",
+    # url=f"{url_for_task}",
     data={
         'title': 'Change Title',
         'description': 'Change description',
@@ -66,23 +67,26 @@ resp = requests.put(
 print_resp(resp)
 
 
-# получить-проверить новую задачу по id
+# получить-проверить новую задачу по id/uri
 resp = requests.get(
     url=f"{BASE_URL}/todo/api/v1.0/tasks/{task_id}"
+    # url=f"{url_for_task}"
 )
 print_resp(resp)
 
 
-# удалить новую задачу по id
+# удалить новую задачу по id/uri
 resp = requests.delete(
     url=f"{BASE_URL}/todo/api/v1.0/tasks/{task_id}"
+    # url=f"{url_for_task}"
 )
 print_resp(resp)
 
 
-# получить-проверить новую задачу по id
+# получить-проверить новую задачу по id/uri
 resp = requests.get(
     url=f"{BASE_URL}/todo/api/v1.0/tasks/{task_id}"
+    # url=f"{url_for_task}"
 )
 print_resp(resp)
 
@@ -92,6 +96,8 @@ resp = requests.get(
     url=f"{BASE_URL}/todo/api/v1.0/tasks"
 )
 print_resp(resp)
+
+
 
 
 

@@ -24,7 +24,7 @@ class TaskClient:
         assert status_code == 200 or status_code == 404, 'Неопределенный статус код'
         return resp.json()
 
-    def create(self, title=None, description=None, done=False):
+    def create(self, title=None, description=None, done=False) -> dict:
         json = {
             'title': title,
             'description': description,
@@ -39,6 +39,34 @@ class TaskClient:
         print(f"Создана задача с id {resp.json()['task']['id']}")
         return resp.json()
 
+    def update(self, task_id, title=None, description=None, done=False) -> dict:
+        json = {}
+        if title is not None:
+            json['title'] = title
+        if description is not None:
+            json['description'] = description
+        if done is not None:
+            json['done'] = done
+
+        resp = requests.put(
+            url=self.url(f"/todo/api/v1.0/tasks/{task_id}"),
+            # url=f"{url_for_task}",
+            data=json
+        )
+        status_code = resp.status_code
+        assert status_code == 200, f"Статус код не 200 [{status_code}]"
+        print(f"Задача <{task_id}> обновлена")
+        return resp.json()
+
+    def delete(self, task_id) -> None:
+        resp = requests.delete(
+            url=self.url(f"/todo/api/v1.0/tasks/{task_id}"),
+            # url=f"{url_for_task}"
+        )
+        status_code = resp.status_code
+        assert status_code == 200, f"Статус код не 200 [{status_code}]"
+        assert resp.json()["result"] == True, f'Запись не была удалена [{result}]'
+
 
 task_client = TaskClient('http://localhost:5000')
 
@@ -50,6 +78,25 @@ result = task_client.create(
     description='Test description',
     done=False
 )
+task_id = result['task']['id']
+
+result = task_client.get(task_id=task_id)
+print(result)
+
+result = task_client.update(
+    task_id,
+    title='Change title',
+    description='Change description',
+    done=True
+)
+print(result)
+
+result = task_client.get(task_id=task_id)
+print(result)
+
+task_client.delete(task_id)
+
+result = task_client.get(task_id=task_id)
 print(result)
 
 

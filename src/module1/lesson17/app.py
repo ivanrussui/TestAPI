@@ -96,6 +96,7 @@ def update_task(task_id):
     task[0]['description'] = request.form.get('description', task[0]['description'])
     task[0]['done'] = request.form.get('done', task[0]['done'])
     return jsonify({'task': task[0]})
+    # return jsonify({'task': make_public_task(task[0])})
 
 
 @app.route('/todo/api/v1.0/tasks/<int:task_id>', methods=['DELETE'])

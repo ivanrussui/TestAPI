@@ -1,107 +1,30 @@
-import requests
-
-class TaskClient:
-
-    def __init__(self, base_url):
-        self.base_url = base_url
-
-    def url(self, path) -> str:
-        return f'{self.base_url}{path}'
-
-    def get_all(self) -> dict:
-        resp = requests.get(
-            url=self.url("/todo/api/v1.0/tasks")
-        )
-        status_code = resp.status_code
-        assert status_code == 200, f"Статус код не 200 [{status_code}]"
-        return resp.json()
-
-    def get(self, task_id) -> dict:
-        resp = requests.get(
-            url=self.url(f"/todo/api/v1.0/tasks/{task_id}")
-        )
-        status_code = resp.status_code
-        assert status_code == 200 or status_code == 404, 'Неопределенный статус код'
-        return resp.json()
-
-    def create(self, title=None, description=None, done=False) -> dict:
-        json = {
-            'title': title,
-            'description': description,
-            'done': done
-        }
-        resp = requests.post(
-            url=self.url(f"/todo/api/v1.0/tasks"),
-            data=json
-        )
-        status_code = resp.status_code
-        assert status_code == 201, f"Статус код не 201 [{status_code}]"
-        print(f"Создана задача с id {resp.json()['task']['id']}")
-        return resp.json()
-
-    def update(self, task_id, title=None, description=None, done=False) -> dict:
-        json = {}
-        if title is not None:
-            json['title'] = title
-        if description is not None:
-            json['description'] = description
-        if done is not None:
-            json['done'] = done
-
-        resp = requests.put(
-            url=self.url(f"/todo/api/v1.0/tasks/{task_id}"),
-            # url=f"{url_for_task}",
-            data=json
-        )
-        status_code = resp.status_code
-        assert status_code == 200, f"Статус код не 200 [{status_code}]"
-        print(f"Задача <{task_id}> обновлена")
-        return resp.json()
-
-    def delete(self, task_id) -> None:
-        resp = requests.delete(
-            url=self.url(f"/todo/api/v1.0/tasks/{task_id}"),
-            # url=f"{url_for_task}"
-        )
-        status_code = resp.status_code
-        assert status_code == 200, f"Статус код не 200 [{status_code}]"
-        assert resp.json()["result"] == True, f'Запись не была удалена [{result}]'
+from module1.lesson17.task import Task
+from module1.lesson17.task_client import TaskClient
 
 
 task_client = TaskClient('http://localhost:5000')
 
-result = task_client.get_all()
-print(result)
+tasks = task_client.get_all()
+print(tasks)
 
-result = task_client.create(
-    title='Test title',
-    description='Test description',
-    done=False
+task = task_client.create(
+    Task(title='Test title', description='Test description', done=False)
 )
-task_id = result['task']['id']
 
-result = task_client.get(task_id=task_id)
-print(result)
+task = task_client.get(task_id=task.id)
+print(task)
 
-result = task_client.update(
-    task_id,
-    title='Change title',
-    description='Change description',
-    done=True
-)
-print(result)
+task.done = True
+updated_task = task_client.update(task)
+print(updated_task)
 
-result = task_client.get(task_id=task_id)
-print(result)
+task = task_client.get(task_id=updated_task.id)
+print(task)
 
-task_client.delete(task_id)
+# task_client.delete(task_id)
 
-result = task_client.get(task_id=task_id)
-print(result)
-
-
-
-
+# result = task_client.get(task_id=task_id)
+# print(result)
 
 
 

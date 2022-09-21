@@ -16,9 +16,9 @@ class Task:
     def to_json(self):
         json = {}
         if self.title is not None:
-            json["title"] = self.title
+            json['title'] = self.title
         if self.description is not None:
-            json["description"] = self.description
+            json['description'] = self.description
         if self.done is not None:
-            json["done"] = self.done
+            json['done'] = self.done
         return json

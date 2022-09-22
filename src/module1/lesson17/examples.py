@@ -161,33 +161,3 @@ print(task)
 # )
 # print_resp(resp)
 # print("-------")
-
-
-
-# todo все что ниже было в файле который скинул Леша
-# from src.module1.lesson17.task import Task
-# from src.module1.lesson17.task_client import TaskClient
-#
-# task_client = TaskClient("http://localhost:5000")
-#
-# tasks = task_client.get_all()
-# print(tasks)
-#
-# task = task_client.create(
-#     Task(title="Test title", description="Test description", done=False)
-# )
-#
-# task = task_client.get(task_id=task.id)
-# print(task)
-#
-# task.done = True
-# updated_task = task_client.update(task)
-# print(updated_task)
-#
-# task = task_client.get(task_id=updated_task.id)
-# print(task)
-#
-# # task_client.delete(task_id)
-# #
-# # result = task_client.get(task_id=task_id)
-# # print(result)

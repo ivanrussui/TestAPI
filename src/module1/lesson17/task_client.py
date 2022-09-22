@@ -6,6 +6,7 @@ from module1.lesson17.task import Task
 
 
 class TaskClient:
+
     def __init__(self, base_url):
         self.base_url = base_url
 

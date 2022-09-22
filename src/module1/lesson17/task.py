@@ -1,9 +1,10 @@
 class Task:
-    def __init__(self, id=None, title=None, description=None, done=None):
+    def __init__(self, id=None, title=None, description=None, done=None, result=None):
         self.id = id
         self.title = title
         self.description = description
         self.done = done
+        self.result = result
 
     def __repr__(self):
         return f"""
@@ -22,3 +23,6 @@ class Task:
         if self.done is not None:
             json['done'] = self.done
         return json
+
+    def to_result(self):
+        return f"Задача <{self.id}> удалена"

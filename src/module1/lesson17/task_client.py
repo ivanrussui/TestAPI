@@ -25,6 +25,7 @@ class TaskClient:
     def get(self, task_id) -> Task:
         resp = requests.get(
             url=self.url(f"/todo/api/v1.0/tasks/{task_id}")
+
         )
         status_code = resp.status_code
         assert status_code == 200 or status_code == 404, 'Неопределенный статус код'
@@ -51,11 +52,12 @@ class TaskClient:
         print(f"Задача <{task.id}> обновлена")
         return Task(**resp.json()['task'])
 
-    def delete(self, task_id) -> None:
+    def delete(self, task: Task) -> Task:
         resp = requests.delete(
-            url=self.url(f"/todo/api/v1.0/tasks/{task_id}"),
+            url=self.url(f"/todo/api/v1.0/tasks/{task.id}"),
             # url=f"{url_for_task}"
         )
         status_code = resp.status_code
         assert status_code == 200, f"Статус код не 200 [{status_code}]"
-        assert resp.json()["result"] == True, f'Запись не была удалена [{resp.json()["result"]}]'
+        assert resp.json()["result"] == True, f'Запись не была удалена [{["result"]}]'
+        return task.to_result()

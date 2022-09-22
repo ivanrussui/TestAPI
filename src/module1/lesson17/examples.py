@@ -4,28 +4,33 @@ from module1.lesson17.task_client import TaskClient
 
 task_client = TaskClient('http://localhost:5000')
 
+# получаем все задачи
 tasks = task_client.get_all()
 print(tasks)
 
+# создаем задачу
 task = task_client.create(
     Task(title='Test title', description='Test description', done=False)
 )
 
+# получаем созданную задачу
 task = task_client.get(task_id=task.id)
 print(task)
 
+# изменяем созданную задачу
+task.title = 'Change title'
+task.description = 'Change description'
 task.done = True
 updated_task = task_client.update(task)
 print(updated_task)
 
-task = task_client.get(task_id=updated_task.id)
-print(task)
+# удаляем созданную задачу
+deleted_task = task_client.delete(task)
+print(deleted_task)
 
-# task_client.delete(task_id)
-
-# result = task_client.get(task_id=task_id)
-# print(result)
-
+# получаем все задачи
+tasks = task_client.get_all()
+print(tasks)
 
 
 
